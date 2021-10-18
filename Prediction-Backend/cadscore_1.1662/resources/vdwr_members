@@ -1,0 +1,114 @@
+*_CA			CA
+
+*_C				C
+
+ILE_CB			CH
+LEU_CG*			CH
+THR_CB			CH
+VAL_CB			CH
+
+ARG_CG*			CH2
+ILE_CG1			CH2
+LYS_CG*			CH2
+LYS_CD*			CH2
+MET_CG*			CH2
+PRO_CG*			CH2
+PRO_CD*			CH2
+
+ARG_CB			CH2b
+ASN_CB			CH2b
+ASP_CB			CH2b
+CYS_CB			CH2b
+GLN_CB			CH2b
+GLU_CB			CH2b
+HIS_CB			CH2b
+LEU_CB			CH2b
+LYS_CB			CH2b
+MET_CB			CH2b
+PHE_CB			CH2b
+PRO_CB			CH2b
+SER_CB			CH2b
+TRP_CB			CH2b
+TYR_CB			CH2b
+
+ARG_CD*			CH2ch
+GLU_CG*			CH2ch
+LYS_CE*			CH2ch
+
+ALA_CB			CH3
+ILE_CG2			CH3
+ILE_CD1			CH3
+LEU_CD1			CH3
+LEU_CD2			CH3
+THR_CG2			CH3
+VAL_CG1			CH3
+VAL_CG2			CH3
+
+PHE_CD*			CHar
+PHE_CE*			CHar
+PHE_CZ*			CHar
+TRP_CD*			CHar
+TRP_CE*			CHar
+TRP_CZ*			CHar
+TRP_CH*			CHar
+TYR_CD*			CHar
+TYR_CE*			CHar
+
+PHE_CG*			Car
+TRP_CG*			Car
+TRP_CE2			Car
+TYR_CG*			Car
+
+HIS_CD*			CHim
+HIS_CE*			CHim
+
+ASN_CG*			Cco
+GLN_CD*			Cco
+
+ASP_CG*			Ccoo
+GLU_CD*			Ccoo
+
+CYS_S*			SH
+
+MET_S*			S
+
+*_N				N
+
+TRP_NE1			NH
+
+HIS_NE1			NH+
+HIS_ND2			NH+
+
+ASN_ND2			NH2
+GLN_NE2			NH2
+ARG_NE*			NH2
+ARG_NH1			NH2
+
+ARG_NH2			NH2+
+
+LYS_NZ*			NH3+
+
+*_O				O
+
+ASN_OD1			Oco
+GLN_OE1			Oco
+
+ASP_OD1			Ocoo
+ASP_OD2			Ocoo
+GLU_OE1			Ocoo
+GLU_OE2			Ocoo
+
+SER_OG*			OH
+THR_OG*			OH
+TYR_OH*			OH
+
+*_CL*			CL_default
+*_C*			C_default
+*_FE*			FE_default
+*_F*			F_default
+*_N*			N_default
+*_O*			O_default
+*_S*			S_default
+*_ZN*			ZN_default
+
+*_*				default
