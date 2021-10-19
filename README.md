@@ -221,3 +221,10 @@ server {
 cd [Nginx installation path]/sbin
 ./nginx -c [Nginx installation path]/conf/nginx.conf
 ```
+## Access the file server for this project
+
+You can access the file server already set up for our project by following the URL below. If you are interested in setting up a file server, you can download our data files at the following URL and use them to set up a file server.
+
+[Linker PDB file server](http://20.106.156.143:8097/)
+
+[Opto file server](http://20.106.156.143:8109/)
