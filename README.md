@@ -12,6 +12,8 @@
 
 ### Run Prediction Backend
 
+The Prediction Backend runs for structure prediction algorithm, activity evaluator and sequence optimizer modules of our software.
+
 ```shell
 cd Prediction-Backend
 ```
@@ -94,20 +96,6 @@ cd prediction
 celery worker -A app.tasks -l info
 python run.py 
 ```
-
-
-
-### Run Web Frontend App
-
-The docker image `darkyzhou/sysu-software-fe` is bulit with the latest codes from the frontend application.
-
-After installing Docker on the host, run this command:
-
-```
-docker run -d --restart unless-stopped --net host --name fe darkyzhou/sysu-software-fe:latest
-```
-
-After Docker finishes pulling images, the frontend application will be running. Visit `http://localhost` using web browsers to access the application.
 
 ### Run Linker Database
 
@@ -215,3 +203,15 @@ You can access the file server already set up for our project by following the U
 [Linker PDB file server](http://20.106.156.143:8097/)
 
 [Opto file server](http://20.106.156.143:8109/)
+
+## Run Web Frontend App
+
+The docker image `darkyzhou/sysu-software-fe` is bulit with the latest codes from the frontend application.
+
+After installing Docker on the host, run this command:
+
+```
+docker run -d --restart unless-stopped --net host --name fe darkyzhou/sysu-software-fe:latest
+```
+
+After Docker finishes pulling images, the frontend application will be running. Visit `http://localhost` using web browsers to access the application.
