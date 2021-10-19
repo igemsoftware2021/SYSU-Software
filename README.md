@@ -1,6 +1,6 @@
 # Phoebus
 
-\<domain name\>
+[http://sysu-software.com](http://sysu-software.com)
 
 ## Environment
 
