@@ -105,18 +105,26 @@ def active_cad():
     result_dict = {}
     srcPath = request.form.get('srcPath')
     tarPath = request.form.get('tarPath')
-    if not srcPath or not tarPath:
+    
+    if not srcPath or (not tarPath and 'tarPDB' not in request.files):
         result_dict['error'] = 'Not enough input.'
         return append_code(result_dict)
+    
     try:
         srcPDBname = srcPath[srcPath.rfind('/')+1:]
         srcPath = srcPath[:srcPath.rfind('/')]
         pdbPath = os.path.join(app.config['ACTIVE_CAD_UPLOAD_FOLDER'], srcPath)
-        tarPDBname = tarPath[tarPath.rfind('/')+1:]
-
-        shutil.copyfile(os.path.join(app.config['STRUCTURE_UPLOAD_FOLDER'], tarPath), os.path.join(pdbPath, tarPDBname))
-    
-        active_list = request.form.getlist('active_list')
+        tarPDBname = None
+        
+        if not tarPath:
+            tarPDB = request.files['tarPDB']
+            tarPDBname = secure_filename(tarPDB.filename)
+            tarPDB.save(os.path.join(pdbPath, tarPDBname))
+        else:
+            tarPDBname = tarPath[tarPath.rfind('/')+1:]
+            shutil.copyfile(os.path.join(app.config['STRUCTURE_UPLOAD_FOLDER'], tarPath), os.path.join(pdbPath, tarPDBname))
+        
+        active_list = request.form.getlist('active_list[]')
         thresh = request.form.get('thresh')
         if thresh:
             thresh = int(thresh)
@@ -128,6 +136,8 @@ def active_cad():
         elif cad == -2:
             result_dict['error'] = "Not enough valid active residual to calculate cad."
             return append_code(result_dict)
+        if not tarPath:
+            cad['tarPath'] = os.path.join(srcPath, tarPDBname)
         result_dict['result'] = cad
     except:
         error_title = str( sys.exc_info()[0] )
@@ -264,8 +274,8 @@ def get_target_file(name):
 def optimize():
     result_dict = {}
     optipyzer = op.api()
-    species_list = request.form.getlist('species_list')
-    weights_list = request.form.getlist('weights_list')
+    species_list = request.form.getlist('species_list[]')
+    weights_list = request.form.getlist('weights_list[]')
     weights_list = [int(x) for x in weights_list]
     
     seq = request.form.get('seq')
