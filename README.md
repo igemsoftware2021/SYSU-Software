@@ -221,7 +221,7 @@ server {
 cd [Nginx installation path]/sbin
 ./nginx -c [Nginx installation path]/conf/nginx.conf
 ```
-## Access the file server for this project
+## Access the file server for our project
 
 You can access the file server already set up for our project by following the URL below. If you are interested in setting up a file server, you can download our data files at the following URL and use them to set up a file server.
 
