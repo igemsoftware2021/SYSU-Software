@@ -138,4 +138,86 @@ cd linker/linker_database
 python main.py
 ```
 
+# File Server
+## Environment
 
+- OS: Ubuntu 18.04
+- SDKs & Softwares:  nginx 1.16.1
+- Important Notes:  Make sure port 8097 is publicly available for accessing the File Server
+
+#### Prepare for File Server
+
+- First, you should Install the necessary dependencies.
+
+```shell
+sudo apt install build-essential
+sudo apt install libtool
+sudo apt install libpcre3 libpcre3-dev
+sudo apt install zlib1g-dev
+sudo apt install openssl
+```
+
+- Second, you should download the nginx binaries and the nginx upload module.
+
+```shell
+wget https://nginx.org/download/nginx-1.16.1.tar.gz
+git clone https://github.com/vkholodkov/nginx-upload-module/
+```
+
+- Third, you should configure and install the nginx, the nginx installation path needs to be specified in the prefix argument.
+
+```shell
+cd nginx-1.16.1
+./configure --with-compat --add-dynamic-module=../nginx-upload-module --prefix=[Nginx installation path]
+make install
+```
+
+- then, you should modify the file server configuration file.
+
+```
+cd [Nginx installation path]/conf/nginx.conf
+```
+
+- You should add the following server configuration.
+
+```shell
+server {
+        listen       8097 default_server;
+        listen       [::]:8097 default_server;
+        server_name  _;
+        autoindex   on;
+
+        location / {
+            root   /home/SYSU/nginx/result_model;#Specifies the location where local files are stored by the server
+            index  index.html index.htm;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+
+server {
+    listen       8109 default_server;
+    listen       [::]:8109 default_server;
+    server_name  _;
+    autoindex   on;
+
+    location / {
+        root   /home/SYSU/Opto;#Specifies the location where local files are stored by the server
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+```
+#### Get Started
+
+```shell
+cd [Nginx installation path]/sbin
+./nginx -c [Nginx installation path]/conf/nginx.conf
+```
