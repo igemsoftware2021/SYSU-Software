@@ -108,3 +108,34 @@ docker run -d --restart unless-stopped --net host --name fe darkyzhou/sysu-softw
 ```
 
 After Docker finishes pulling images, the frontend application will be running. Visit `http://localhost` using web browsers to access the application.
+
+# Linker Database
+
+The Linker database runs on the back-end, it is used to interact with the front-end and provides the linker data needed by the front-end.
+
+## Environment
+
+- OS: Ubuntu 18.04
+- SDKs & Softwares:  Python 3.6.13, Flask-Cors 3.0.10, Flask 1.1.2
+- Important Notes:  Make sure port 5166 is publicly available for accessing the Linker database
+
+## Run Server
+
+####  Prepare for Linker Database
+
+- First, you should deploy redis first at port 5166.
+- Next, you should install apt or yum or binary packages as follows.
+
+```shell
+sudo apt install Flask==1.1.2
+sudo apt install Flask-Cors==3.0.10
+```
+
+#### Get Started
+
+```shell
+cd linker/linker_database
+python main.py
+```
+
+
