@@ -5,8 +5,8 @@
 ## Environment
 
 - OS: Ubuntu 18.04
-- SDKs & Softwares:  Python 3.6.13, conda 4.10.1, Docker 20.10.9
-- Important Notes: Please make sure port 4400 publicly available for viewing the 3d model of protein.
+- SDKs & Softwares:  Python 3.6.13, conda 4.10.1, Docker 20.10.9, Flask-Cors 3.0.10, Flask 1.1.2, nginx 1.16.1
+- Important Notes: Please make sure port 4400 publicly available for viewing the 3d model of protein, port 5166 publicly available for accessing the Linker database, port 8097、8109 publicly available for accessing the File Server.
 
 ## Run Server
 
@@ -109,19 +109,11 @@ docker run -d --restart unless-stopped --net host --name fe darkyzhou/sysu-softw
 
 After Docker finishes pulling images, the frontend application will be running. Visit `http://localhost` using web browsers to access the application.
 
-# Linker Database
+### Run Linker Database
 
 The Linker database runs on the back-end, it is used to interact with the front-end and provides the linker data needed by the front-end.
 
-## Environment
-
-- OS: Ubuntu 18.04
-- SDKs & Softwares:  Python 3.6.13, Flask-Cors 3.0.10, Flask 1.1.2
-- Important Notes:  Make sure port 5166 is publicly available for accessing the Linker database
-
-## Run Server
-
-####  Prepare for Linker Database
+#### Prepare for Linker Database
 
 - First, you should deploy redis first at port 5166.
 - Next, you should install apt or yum or binary packages as follows.
@@ -138,12 +130,7 @@ cd linker/linker_database
 python main.py
 ```
 
-# File Server
-## Environment
-
-- OS: Ubuntu 18.04
-- SDKs & Softwares:  nginx 1.16.1
-- Important Notes:  Make sure port 8097 is publicly available for accessing the File Server
+### Run File Server
 
 #### Prepare for File Server
 
@@ -221,7 +208,7 @@ server {
 cd [Nginx installation path]/sbin
 ./nginx -c [Nginx installation path]/conf/nginx.conf
 ```
-## Access the file server for our project
+#### Access the file server for our project
 
 You can access the file server already set up for our project by following the URL below. If you are interested in setting up a file server, you can download our data files at the following URL and use them to set up a file server.
 
