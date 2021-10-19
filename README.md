@@ -4,9 +4,9 @@
 
 ## Environment
 
-- OS: Ubuntu 18.04 
--  SDKs & Softwares:  Python 3.6.13, conda 4.10.1
--  Important Notes: Please make sure port 4400 publicly available for viewing the 3d model of protein.
+- OS: Ubuntu 18.04
+- SDKs & Softwares:  Python 3.6.13, conda 4.10.1, Docker 20.10.9
+- Important Notes: Please make sure port 4400 publicly available for viewing the 3d model of protein.
 
 ## Run Server
 
@@ -95,3 +95,16 @@ celery worker -A app.tasks -l info
 python run.py 
 ```
 
+
+
+### Run Web Frontend App
+
+The docker image `darkyzhou/sysu-software-fe` is bulit with the latest codes from the frontend application.
+
+After installing Docker on the host, run this command:
+
+```
+docker run -d --restart unless-stopped --net host --name fe darkyzhou/sysu-software-fe:latest
+```
+
+After Docker finishes pulling images, the frontend application will be running. Visit `http://localhost` using web browsers to access the application.
