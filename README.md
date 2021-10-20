@@ -10,6 +10,44 @@
 
 ## Run Server
 
+
+### Communication-Backend
+
+#### How to run server?
+
+You should install ```Python3``` first.
+
+```bash
+cd Communication-Backend
+# Install requirements
+pip3 install -r requirements.txt 
+
+# Run Server
+python3 community/manage.py runserver
+# Then it will run on 127.0.0.1:8000
+
+# When databases change(Not datas), please run below commands first
+python3 community/manage.py makemigrations api
+python3 community/manage.py migrate
+# Then run the runserver command above
+```
+### MathModel-Backend
+
+It's a small flask app to help with comunication between user and program.
+
+#### How to run server?
+
+You should install ```Python3``` first.
+
+```bash
+cd mathmodel-Backend
+# Install requirements
+pip install -r requirements.txt 
+
+# Run Server
+python main.py
+# Then it will run on 127.0.0.1:8101
+```
 ### Run Prediction Backend
 
 The Prediction Backend runs for structure prediction algorithm, activity evaluator and sequence optimizer modules of our software.
