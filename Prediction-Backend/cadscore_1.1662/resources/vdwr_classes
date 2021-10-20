@@ -1,0 +1,36 @@
+CA          1.90
+C           1.75
+CH          2.01
+CH2         1.92
+CH2b        1.91
+CH2ch       1.88
+CH3         1.92
+CHar        1.82
+Car         1.74
+CHim        1.74
+Cco         1.81
+Ccoo        1.76
+SH          1.88
+S           1.94
+N           1.70
+NH          1.66
+NH+         1.65
+NH2         1.62
+NH2+        1.67
+NH3+        1.67
+O           1.49
+Oco         1.52
+Ocoo        1.49
+OH          1.54
+H20         1.68
+
+CL_default  1.80
+C_default   1.80
+FE_default  1.80
+F_default   1.80
+N_default   1.60
+O_default   1.50
+S_default   1.90
+ZN_default  1.70
+
+default     1.80
