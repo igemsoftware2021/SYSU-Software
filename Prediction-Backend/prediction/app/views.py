@@ -105,7 +105,11 @@ def active_cad():
     result_dict = {}
     srcPath = request.form.get('srcPath')
     tarPath = request.form.get('tarPath')
-    
+    print(srcPath)
+    print(tarPath)
+    # srcPath = srcPath.replace('%2F', '/')
+    # tarPath = tarPath.replace('%2F', '/')
+
     if not srcPath or (not tarPath and 'tarPDB' not in request.files):
         result_dict['error'] = 'Not enough input.'
         return append_code(result_dict)
@@ -114,14 +118,14 @@ def active_cad():
         srcPDBname = srcPath[srcPath.rfind('/')+1:]
         srcPath = srcPath[:srcPath.rfind('/')]
         pdbPath = os.path.join(app.config['ACTIVE_CAD_UPLOAD_FOLDER'], srcPath)
-        tarPDBname = None
+        tarPDBname = 'fusion_'
         
         if not tarPath:
             tarPDB = request.files['tarPDB']
-            tarPDBname = secure_filename(tarPDB.filename)
+            tarPDBname += secure_filename(tarPDB.filename)
             tarPDB.save(os.path.join(pdbPath, tarPDBname))
         else:
-            tarPDBname = tarPath[tarPath.rfind('/')+1:]
+            tarPDBname += tarPath[tarPath.rfind('/')+1:]
             shutil.copyfile(os.path.join(app.config['STRUCTURE_UPLOAD_FOLDER'], tarPath), os.path.join(pdbPath, tarPDBname))
         
         active_list = request.form.getlist('active_list[]')
