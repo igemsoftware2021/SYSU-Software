@@ -23,8 +23,8 @@ cd Communication-Backend
 pip3 install -r requirements.txt 
 
 # Run Server
-python3 community/manage.py runserver
-# Then it will run on 127.0.0.1:8000
+python3 community/manage.py runserver 0.0.0.0:8000
+# Then it will run on 0.0.0.0:8000
 
 # When databases change(Not datas), please run below commands first
 python3 community/manage.py makemigrations api
@@ -46,7 +46,7 @@ pip install -r requirements.txt
 
 # Run Server
 python main.py
-# Then it will run on 127.0.0.1:8101
+# Then it will run on 0.0.0.0:8101
 ```
 ### Run Prediction Backend
 
