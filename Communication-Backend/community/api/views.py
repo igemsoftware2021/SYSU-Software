@@ -32,12 +32,12 @@ class ForgetPasswordViwe(APIView):
                 user.set_password(password)
                 user.save()
                 del request.session["code"] 
-                return Response({"status": '0', 'msg': '密码已重置！'}, status=status.HTTP_200_OK)
+                return Response({"status": '0', 'msg': 'Password Reset！'}, status=status.HTTP_200_OK)
             else:
-                return Response({"status": '1', 'msg': '验证码错误！'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"status": '1', 'msg': 'Wrong Code！'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             print(repr(e))
-            return Response({"status": '1', 'msg': '参数错误！'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": '1', 'msg': 'Wrong Param！'}, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
         try:
@@ -45,24 +45,24 @@ class ForgetPasswordViwe(APIView):
             try:
                 user = User.objects.get(username=email)
             except User.DoesNotExist:
-                return Response({"status": '1', 'msg': '邮箱不存在！'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"status": '1', 'msg': 'Email NOT Exist！'}, status=status.HTTP_400_BAD_REQUEST)
             nick_name = request.GET.get('name')
             if str(user.info.nick_name) != str(nick_name):
-                return Response({"status": '1', 'msg': '用户名与邮箱不一致！'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"status": '1', 'msg': "Email doesn't match username！"}, status=status.HTTP_400_BAD_REQUEST)
             code=random_str()
             request.session["code"]=code 
-            email_title = "iGME社区找回密码"
-            email_body = "验证码为：{0}".format(code)
+            email_title = "iGME Community Find Password"
+            email_body = "Code：{0}".format(code)
             send_status = send_mail(email_title, email_body, None, [email,])
             return Response({"status": '0', 'msg': 'ok'}, status=status.HTTP_200_OK)
         except Exception as e:
             print(repr(e))
-            return Response({"status": '1', 'msg': '参数错误！'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": '1', 'msg': 'Wrong Param！'}, status=status.HTTP_400_BAD_REQUEST)
 
 class Discuss(APIView):
     def get(self, request):
         if not request.user.is_authenticated:
-            return Response({"status": '1', 'msg': '当前未登录！'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"status": '1', 'msg': 'No login！'}, status=status.HTTP_401_UNAUTHORIZED)
         if not os.path.exists("./discuss.txt"):
             return Response({"status": '0', 'msg': 'ok', 'data' : {}}, status=status.HTTP_200_OK)
         with open("discuss.txt", "r") as f:
@@ -74,7 +74,7 @@ class Discuss(APIView):
     
     def post(self, request):
         if not request.user.is_authenticated:
-            return Response({"status": '1', 'msg': '当前未登录！'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"status": '1', 'msg': 'No login！'}, status=status.HTTP_401_UNAUTHORIZED)
         data = request.data['content']
         with open("discuss.txt", "w") as f:
             f.write(data)
@@ -86,14 +86,14 @@ class LogoutView(APIView):
         user = request.user
         if user.is_authenticated:
             logout(request)  
-            return Response({"status": '0', 'msg': '已注销'}, status=status.HTTP_200_OK)
-        return Response({"status": '1', 'msg': '当前未登录！'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": '0', 'msg': 'Logout'}, status=status.HTTP_200_OK)
+        return Response({"status": '1', 'msg': 'No login！'}, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
 
     def post(self, request):
         if request.user.is_authenticated:
-            return Response({"status": '1', 'msg': '当前已登录！'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({"status": '1', 'msg': 'Now is Logined！'}, status=status.HTTP_406_NOT_ACCEPTABLE)
         try:
             email = request.data['email']
             pwd = request.data['password']
@@ -102,18 +102,18 @@ class LoginView(APIView):
                 login(request, user)
                 user_data = SimUserSerializer(user)
                 data = (json.dumps(user_data.data))
-                return Response({"status": '0', 'msg': '登录成功！', 'data':{data}}, status=status.HTTP_200_OK)
+                return Response({"status": '0', 'msg': 'Login Succeed！', 'data':{data}}, status=status.HTTP_200_OK)
             else:
-                return Response({"status": '1', 'msg': '用户名或密码错误！'}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({"status": '1', 'msg': 'Wrong email or password！'}, status=status.HTTP_401_UNAUTHORIZED)
         except Exception as e:
             print(repr(e))
-            return Response({"status": '1', 'msg': '参数错误！'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": '1', 'msg': 'Wrong Param！'}, status=status.HTTP_400_BAD_REQUEST)
 
 class RegisterView(APIView):
 
     def post(self, request):
         if request.user.is_authenticated:
-            return Response({"status": '1', 'msg': '当前已登录，请先退出登录'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({"status": '1', 'msg': 'Logined，please logout out first.'}, status=status.HTTP_406_NOT_ACCEPTABLE)
         try:
             name = request.data['name']
             pwd = request.data['password']
@@ -124,11 +124,11 @@ class RegisterView(APIView):
             usrimg = request.data['usrimg']
             try:
                 user = User.objects.get(username=email)
-                return Response({"status": '1', 'msg': '邮箱已存在'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+                return Response({"status": '1', 'msg': 'Email Exist!'}, status=status.HTTP_406_NOT_ACCEPTABLE)
             except User.DoesNotExist:
                 try:
                     userinfo = UserInfo.objects.get(nick_name = name)
-                    return Response({"status": '1', 'msg': '昵称已存在'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+                    return Response({"status": '1', 'msg': 'username Exist!'}, status=status.HTTP_406_NOT_ACCEPTABLE)
                 except UserInfo.DoesNotExist as e:
                     user = User.objects.create_user(username=email, password=pwd, email=email)
                     userinfo = UserInfo.objects.create(owner=user, nick_name = name, job_title = job, userimg=int(usrimg), work_institution=wi, research_field = rf)
@@ -138,10 +138,10 @@ class RegisterView(APIView):
                 authenticate(username=email, password=pwd)
                 user_data = UserSerializer(user)
                 data = (json.dumps(user_data.data))
-                return Response({"status": '0', 'msg': '注册成功！', 'data':{data}}, status=status.HTTP_200_OK)
+                return Response({"status": '0', 'msg': 'Registion Succeed！', 'data':{data}}, status=status.HTTP_200_OK)
         except Exception as e:
             print(repr(e))
-            return Response({"status": '1', 'msg': '参数错误！'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": '1', 'msg': 'Wrong Param！'}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
@@ -153,7 +153,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         try:
             info = UserInfo.objects.get(pk=pk)
         except UserInfo.DoesNotExist:
-            return Response({"status" : '0', 'msg': '用户信息不存在'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status" : '0', 'msg': 'User Not Exist'}, status=status.HTTP_400_BAD_REQUEST)
         serializer = UserInfoSerializer(info)
         data = json.dumps(serializer.data)
         return Response({"status": '0', 'msg': 'ok', 'data':{data}}, status=status.HTTP_200_OK)
@@ -161,11 +161,11 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=False)
     def get_info(self, request):
         if not request.user.is_authenticated:
-            return Response({"status": '1', 'msg': '当前未登录，请先登录！'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": '1', 'msg': 'Please Login Firdt！'}, status=status.HTTP_400_BAD_REQUEST)
         try:
             info = UserInfo.objects.get(pk=request.user.info.id)
         except UserInfo.DoesNotExist:
-            return Response({"status" : '0', 'msg': '用户信息不存在'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status" : '0', 'msg': 'User Not Exist'}, status=status.HTTP_400_BAD_REQUEST)
         serializer = UserInfoSerializer(info)
         data = json.dumps(serializer.data)
         return Response({"status": '0', 'msg': 'ok', 'data':{data}}, status=status.HTTP_200_OK)
@@ -207,10 +207,10 @@ class TopicViewSet(viewsets.ModelViewSet):
             data = json.dumps(serializer.data)
             return Response({"status": "0", "msg" : "ok", "data" : {data}}, status=status.HTTP_200_OK)
         except Topic.DoesNotExist:
-            return Response({"status": "-1", "msg" : "话题不存在！"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "-1", "msg" : "Topic Not Exist！"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             print(repr(e))
-            return Response({"status": "-1", "msg" : "参数错误！"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "-1", "msg" : "Wrong Param！"}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False)
     def search(self, request):
@@ -231,7 +231,7 @@ class TopicViewSet(viewsets.ModelViewSet):
             #     return self.get_paginated_response({"status": "0", "msg" : "ok", "data" : {data}}, status=status.HTTP_200_OK)
             # else:
             return Response({"status": "0", "msg" : "ok", "data" : {data}}, status=status.HTTP_200_OK)
-        return Response({"status": '1', 'msg': '搜索不能为空！'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"status": '1', 'msg': 'Searching content cant be empty！'}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False)
     def get_topic_list(self, request):
@@ -317,10 +317,10 @@ class AnswerViewSet(viewsets.ModelViewSet):
             answer.save()
             return Response({"status": "0", "msg" : "ok"}, status=status.HTTP_200_OK)
         except Answer.DoesNotExist:
-            return Response({"status": "-1", "msg" : "回答不存在！"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "-1", "msg" : "Suggwtion NOT Exist！"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             print(repr(e))
-            return Response({"status": "-1", "msg" : "参数错误！"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "-1", "msg" : "Wrong Param！"}, status=status.HTTP_400_BAD_REQUEST)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
