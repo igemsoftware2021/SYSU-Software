@@ -4,10 +4,12 @@ from flask import Flask, request, jsonify
 import os
 import json
 from database import RecordDAO
+from flask_cors import CORS
 
 trans_factor = RecordDAO("./trans_factor.db")
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True, origin="http://sysu-software.com")
 
 @app.route('/db', methods=['POST'])
 def db():
