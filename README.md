@@ -31,6 +31,16 @@ python3 community/manage.py makemigrations api
 python3 community/manage.py migrate
 # Then run the runserver command above
 ```
+
+Note that you should set the email and password in ```community/community/setting.py``` for the code sending for the reseting password.
+
+eg. 
+```
+EMAIL_HOST_USER = 'xxxxxxxx@qq.com' 
+EMAIL_HOST_PASSWORD = 'xxxxxxx'
+```
+
+
 ### MathModel-Backend
 
 It's a small flask app to help with comunication between user and program.
