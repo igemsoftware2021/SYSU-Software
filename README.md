@@ -263,14 +263,16 @@ You can access the file server already set up for our project by following the U
 
 [Opto file server](http://20.106.156.143:8109/)
 
-## Run Transcription Factor (TF) Database
+### Run Transcription Factor (TF) Database
 
 #### Quick Start
+
 ```
 cd TFDB
 pip install -r requirements.txt
 python main.py
 ```
+
 This service will run at ```localhost:5122/db```.
 
 After launching, you can send HTTP POST request via Postman to access the database.
