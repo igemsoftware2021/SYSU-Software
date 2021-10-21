@@ -83,6 +83,27 @@ tar xf pdb100_2020Mar11.tar.gz
 # reinstall following packages for recent updates of these packages
 conda install --force-reinstall biocore::blast-legacy=2.2.26
 pip install git+https://github.com/songlab-cal/tape.git --upgrade --force-reinstall
+
+# fix the bug in the open source optipyzer to enable the sequence optimizer
+sudo nano /path/to/anaconda3/envs/Prediction-Backend/lib/python3.6/site-packages/optipyzer
+
+. . .
+
+def optimize(self, seq, org_list, weights, seq_type='dna'):
+    if len(org_list) != len(weights):
+        raise ValueError('Lengths of org_list and weights must be the same!')
+
+    if seq_type != 'dna' and seq_type != 'protein':
+        raise ValueError('Invalid sequence type "{}"! seq_type must be "dna" or "protein"'.format(seq_type))
+
+    # if (len(seq) % 3) != 0:
+    # 	raise ValueError('Sequence length must be divisible by 3!')
+
+    orgs = []
+    for org in org_list:
+        orgs.append(org.org_id)
+. . .
+
 ```
 
 Install PyRosetta [here](https://www.pyrosetta.org/home).

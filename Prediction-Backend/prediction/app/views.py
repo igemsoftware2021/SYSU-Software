@@ -280,13 +280,21 @@ def optimize():
     optipyzer = op.api()
     species_list = request.form.getlist('species_list[]')
     weights_list = request.form.getlist('weights_list[]')
+    seq = request.form.get('seq')
     weights_list = [int(x) for x in weights_list]
     
-    seq = request.form.get('seq')
     if not seq or len(species_list) == 0 or len(weights_list) == 0:
         result_dict['error'] = 'Not enough input.'
         return append_code(result_dict)
+
+    if seq.find('X') != -1:
+        result_dict['error'] = 'The protein sequence contains a non-residue X.'
+        return append_code(result_dict)
+
     try:
+        print(seq)
+        print(weights_list)
+        print(species_list)
         org_list = []
         codon_usage_list = []
         for specie in species_list:
@@ -294,7 +302,12 @@ def optimize():
             org = results[0]
             org_list.append(org)
             codon_usage_list.append(optipyzer.pull_codons(org))
+
         optimized = optipyzer.optimize(seq,org_list=org_list,weights=weights_list, seq_type='protein')
+        result = {}
+        result['peptide_seq'] = optimized.peptide_seq
+        result['optimmized_sd'] = optimized.optimmized_sd
+        result['optimmized_ad'] = optimized.optimmized_ad
         
     except:
         error_title = str( sys.exc_info()[0] )
@@ -302,10 +315,7 @@ def optimize():
         result_dict['error'] = error_title + ": " + error_detail
         return append_code(result_dict)
 
-    result = {}
-    result['peptide_seq'] = optimized.peptide_seq
-    result['optimmized_sd'] = optimized.optimmized_sd
-    result['optimmized_ad'] = optimized.optimmized_ad
+    
     result_dict['result'] = result
     return append_code(result_dict)
 
